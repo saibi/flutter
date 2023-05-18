@@ -4,17 +4,17 @@ import 'package:webtoon/models/webtoon_episode_model.dart';
 
 class Episode extends StatelessWidget {
   final WebtoonEpisodeModel episode;
-  final String webtoon_id;
+  final String webtoonId;
 
   const Episode({
     super.key,
     required this.episode,
-    required this.webtoon_id,
+    required this.webtoonId,
   });
 
   onButtonTap() async {
     await launchUrlString(
-        "https://comic.naver.com/webtoon/detail?titleId=$webtoon_id&no=${episode.id}");
+        "https://comic.naver.com/webtoon/detail?titleId=$webtoonId&no=${episode.id}");
   }
 
   @override
