@@ -1,21 +1,39 @@
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  DateTime firstDay = DateTime.now();
+
+  void onHeartPressed() {
+    setState(() {
+      firstDay = firstDay.subtract(const Duration(
+        days: 1,
+      ));
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.pink[100],
-      body: const SafeArea(
+      body: SafeArea(
         top: true,
         bottom: false,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            _DDay(),
-            _CoupleImage(),
+            _DDay(
+              onHeartPressed: onHeartPressed,
+              firstDay: firstDay,
+            ),
+            const _CoupleImage(),
           ],
         ),
       ),
@@ -24,10 +42,16 @@ class HomeScreen extends StatelessWidget {
 }
 
 class _DDay extends StatelessWidget {
-  const _DDay();
+  final GestureTapCallback onHeartPressed;
+  final DateTime firstDay;
+  const _DDay({
+    required this.onHeartPressed,
+    required this.firstDay,
+  });
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final now = DateTime.now();
     return Column(
       children: [
         const SizedBox(
@@ -45,12 +69,12 @@ class _DDay extends StatelessWidget {
           style: textTheme.bodyLarge,
         ),
         Text(
-          '2023.05.22',
+          '${firstDay.year}.${firstDay.month}.${firstDay.day}',
           style: textTheme.bodySmall,
         ),
         IconButton(
           iconSize: 60.0,
-          onPressed: () {},
+          onPressed: onHeartPressed,
           icon: const Icon(
             Icons.favorite,
             color: Colors.red,
@@ -60,7 +84,7 @@ class _DDay extends StatelessWidget {
           height: 16.0,
         ),
         Text(
-          'D+365',
+          'D+${now.difference(firstDay).inDays + 1}',
           style: textTheme.displayMedium,
         ),
       ],
