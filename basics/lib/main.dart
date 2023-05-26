@@ -5,7 +5,12 @@ void main(List<String> args) {
   runApp(
     const MaterialApp(
       home: Scaffold(
-        body: GradientContainer(),
+        body: GradientContainer(
+          colors: [
+            Colors.black,
+            Colors.grey,
+          ],
+        ),
       ),
     ),
   );
