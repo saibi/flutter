@@ -21,13 +21,20 @@ class _QuizState extends State<Quiz> {
     });
   }
 
-  void chooseAnser(String answer) {
+  void chooseAnswer(String answer) {
     selectedAnswers.add(answer);
     if (selectedAnswers.length == questions.length) {
       setState(() {
         activeScreen = 'results-screen';
       });
     }
+  }
+
+  void restartQuiz() {
+    selectedAnswers.clear();
+    setState(() {
+      activeScreen = 'start-screen';
+    });
   }
 
   @override
@@ -50,9 +57,10 @@ class _QuizState extends State<Quiz> {
               : activeScreen == 'results-screen'
                   ? ResultsScreen(
                       chosenAnswers: selectedAnswers,
+                      onRestart: restartQuiz,
                     )
                   : QuestionScreen(
-                      onSelectAnswer: chooseAnser,
+                      onSelectAnswer: chooseAnswer,
                     ),
         ),
       ),
