@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shopping_list/data/dummy_items.dart';
+import 'package:shopping_list/widgets/grocery_list.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,32 +22,7 @@ class MyApp extends StatelessWidget {
         ),
         scaffoldBackgroundColor: const Color.fromARGB(255, 50, 58, 60),
       ),
-      home: Scaffold(
-        appBar: AppBar(
-            title: const Text(
-          "Your Groceries",
-        )),
-        body: ListView(children: [
-          ...groceryItems
-              .map(
-                (e) => Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      width: 20,
-                      decoration: BoxDecoration(
-                        color: e.category.color,
-                      ),
-                      child: const Text(''),
-                    ),
-                    Text(e.name),
-                    Text('${e.quantity}')
-                  ],
-                ),
-              )
-              .toList(),
-        ]),
-      ),
+      home: const GroceryList(),
     );
   }
 }
