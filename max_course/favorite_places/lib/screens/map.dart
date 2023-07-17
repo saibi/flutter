@@ -39,6 +39,7 @@ class _MapScreenState extends State<MapScreen> {
         ],
       ),
       body: GoogleMap(
+        myLocationEnabled: true,
         onTap: !widget.isSelecting
             ? null
             : (position) {
@@ -63,12 +64,6 @@ class _MapScreenState extends State<MapScreen> {
                         widget.location.latitude,
                         widget.location.longitude,
                       ),
-                  // position: _pickedLocation != null
-                  //     ? _pickedLocation!
-                  //     : LatLng(
-                  //         widget.location.latitude,
-                  //         widget.location.longitude,
-                  //       ),
                 ),
               },
       ),

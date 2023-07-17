@@ -29,13 +29,10 @@ class _LocationInputState extends State<LocationInput> {
     final lng = _pickedLocation!.longitude;
 
     return ApiService.getMapImageUrl(lat, lng);
-
-    //return 'https://maps.googleapis.com/maps/api/staticmap?center=$lat,$lng&zoom=16&size=600x300&maptype=roadmap&markers=colorScheme.background:red%7Clabel:S%7C$lat,$lng&key=$saibiKey';
   }
 
   Future<void> _savePlace(double latitude, double longitude) async {
     final url = Uri.parse(ApiService.getLocationUrl(latitude, longitude));
-    //'https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lng&key=$saibiKey');
 
     final response = await http.get(url);
     final resData = json.decode(response.body);
@@ -88,15 +85,9 @@ class _LocationInputState extends State<LocationInput> {
   }
 
   void _selectOnMap() async {
-    if (_pickedLocation == null) {
-      _getCurrentLocation();
-    }
-
     final pickedLocation = await Navigator.of(context).push<LatLng>(
       MaterialPageRoute(
-        builder: (ctx) => MapScreen(
-          location: _pickedLocation!,
-        ),
+        builder: (ctx) => const MapScreen(),
       ),
     );
 
