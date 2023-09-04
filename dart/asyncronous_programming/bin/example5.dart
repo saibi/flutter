@@ -1,5 +1,5 @@
 void main(List<String> args) async {
-  await for (var character
+  await for (final character
       in getNames().asyncExpand((name) => getCharacters(name))) {
     print(character);
   }
