@@ -28,3 +28,48 @@ class TestModel {
     }
   }
 }
+
+
+/* 
+
+Apps Script Code
+
+function doGet(e) {
+  var sheet = SpreadsheetApp.openById('sheet id here').getSheetByName('sheet name here');
+  var values = sheet.getDataRange().getValues();
+
+  var headers = values.shift();
+  var result = [];
+
+  values.forEach(function(row) {
+    var obj = {};
+    row.forEach(function(value, index) {
+      obj[headers[index]] = value;
+    });
+    result.push(obj);
+  });
+  if ( e != null && e.parameters != null ) {
+    var names = e.parameters.Name; // Column 'Name' here
+    if ( names != null ) {
+      var filteredResult = [];
+      for ( const name of names ) {
+        filteredResult.push(...result.filter( row => row.Name == name));
+      }
+      result = filteredResult;
+    }
+  }
+  Logger.log(result);
+  
+  var output = ContentService.createTextOutput(JSON.stringify(result));
+  output.setMimeType(ContentService.MimeType.JSON);
+
+  return output;
+}
+
+function tester() {
+  var req = {"contextPath":"","parameter":{"Name":"hello"},"parameters":{"Name":["hello"]},"contentLength":-1,"queryString":"Name=hello"}
+
+  doGet(req);
+}
+
+*/
