@@ -11,6 +11,8 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   List<Map<String, String>> datas = [];
+  int _currentPageIndex = 0;
+
   @override
   void initState() {
     super.initState();
@@ -213,12 +215,46 @@ class _HomeState extends State<Home> {
     );
   }
 
+  BottomNavigationBarItem _bottomNavigationBarItem(
+      String iconName, String label) {
+    return BottomNavigationBarItem(
+      icon: Padding(
+        padding: const EdgeInsets.only(bottom: 5),
+        child: SvgPicture.asset(
+          "assets/svg/$iconName.svg",
+          width: 22,
+        ),
+      ),
+      label: label,
+    );
+  }
+
+  Widget _bottomWidget() {
+    return BottomNavigationBar(
+      items: [
+        _bottomNavigationBarItem("home_off", "Home"),
+        _bottomNavigationBarItem("notes_off", "Notes"),
+        _bottomNavigationBarItem("location_off", "Location"),
+        _bottomNavigationBarItem("chat_off", "Chat"),
+        _bottomNavigationBarItem("user_off", "User"),
+      ],
+      onTap: (idx) {
+        print(idx);
+        setState(() {
+          _currentPageIndex = idx;
+        });
+      },
+      currentIndex: _currentPageIndex,
+      type: BottomNavigationBarType.fixed,
+      selectedItemColor: Colors.red,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _appBarWidget(),
-      body: _bodyWidget(),
-      //bottomNavigationBar: Container(),
-    );
+        appBar: _appBarWidget(),
+        body: _bodyWidget(),
+        bottomNavigationBar: _bottomWidget());
   }
 }
