@@ -11,7 +11,35 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   List<Map<String, String>> datas = [];
-  int _currentPageIndex = 0;
+  int currentLocation = 0;
+  final List<String> locationStr = [
+    "아라동",
+    "오라동",
+    "연동",
+    "노형동",
+    "외도동",
+    "이도동",
+    "일도동",
+    "삼도동",
+    "용담동",
+    "건입동",
+    "화북동",
+    "삼양동",
+    "봉개동",
+    "아라동",
+    "오라동",
+    "연동",
+    "노형동",
+    "외도동",
+    "이도동",
+    "일도동",
+    "삼도동",
+    "용담동",
+    "건입동",
+    "화북동",
+    "삼양동",
+    "봉개동"
+  ];
 
   @override
   void initState() {
@@ -101,6 +129,11 @@ class _HomeState extends State<Home> {
     ];
   }
 
+  final oCcy = NumberFormat("#,###", "ko_KR");
+  String calcStringToWon(String priceString) {
+    return "${oCcy.format(int.parse(priceString))}원";
+  }
+
   PreferredSizeWidget _appBarWidget() {
     return AppBar(
       //leading: title 왼쪽 부분임. 사용 안함
@@ -109,15 +142,36 @@ class _HomeState extends State<Home> {
         onTap: () {
           print("click");
         },
-        onLongPress: () {
-          print("long press");
-        },
-        child: const Row(
-          children: [
-            Text("아라동"),
-            Icon(Icons.arrow_drop_down),
-          ],
+        child: PopupMenuButton<int>(
+          onSelected: (value) {
+            print(value);
+            setState(() {
+              currentLocation = value;
+            });
+          },
+          itemBuilder: (context) {
+            return [
+              PopupMenuItem(value: 0, child: Text(locationStr[0])),
+              PopupMenuItem(value: 1, child: Text(locationStr[1])),
+              PopupMenuItem(value: 2, child: Text(locationStr[2])),
+            ];
+          },
+          shape: ShapeBorder.lerp(
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+            1,
+          ),
+          offset: const Offset(0, 30),
+          child: Row(
+            children: [
+              Text(locationStr[currentLocation]),
+              const Icon(Icons.arrow_drop_down),
+            ],
+          ),
         ),
+        // onLongPress: () {
+        //   print("long press");
+        // },
       ),
       actions: [
         IconButton(
@@ -138,11 +192,6 @@ class _HomeState extends State<Home> {
       ],
       // backgroundColor: Colors.white,
     );
-  }
-
-  final oCcy = NumberFormat("#,###", "ko_KR");
-  String calcStringToWon(String priceString) {
-    return "${oCcy.format(int.parse(priceString))}원";
   }
 
   Widget _bodyWidget() {
@@ -215,46 +264,11 @@ class _HomeState extends State<Home> {
     );
   }
 
-  BottomNavigationBarItem _bottomNavigationBarItem(
-      String iconName, String label) {
-    return BottomNavigationBarItem(
-      icon: Padding(
-        padding: const EdgeInsets.only(bottom: 5),
-        child: SvgPicture.asset(
-          "assets/svg/$iconName.svg",
-          width: 22,
-        ),
-      ),
-      label: label,
-    );
-  }
-
-  Widget _bottomWidget() {
-    return BottomNavigationBar(
-      items: [
-        _bottomNavigationBarItem("home_off", "Home"),
-        _bottomNavigationBarItem("notes_off", "Notes"),
-        _bottomNavigationBarItem("location_off", "Location"),
-        _bottomNavigationBarItem("chat_off", "Chat"),
-        _bottomNavigationBarItem("user_off", "User"),
-      ],
-      onTap: (idx) {
-        print(idx);
-        setState(() {
-          _currentPageIndex = idx;
-        });
-      },
-      currentIndex: _currentPageIndex,
-      type: BottomNavigationBarType.fixed,
-      selectedItemColor: Colors.red,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: _appBarWidget(),
-        body: _bodyWidget(),
-        bottomNavigationBar: _bottomWidget());
+      appBar: _appBarWidget(),
+      body: _bodyWidget(),
+    );
   }
 }
