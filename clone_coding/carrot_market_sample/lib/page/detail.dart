@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:carrot_market_sample/components/manor_temp_widget.dart';
 import 'package:flutter/material.dart';
 
 class DetailContentView extends StatefulWidget {
@@ -41,7 +42,7 @@ class _DetailContentViewState extends State<DetailContentView> {
     );
   }
 
-  Widget _bodyWidget() {
+  Widget _makeSliderImage() {
     return Container(
       child: Stack(
         children: [
@@ -94,6 +95,46 @@ class _DetailContentViewState extends State<DetailContentView> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _sellerSimpleInfo() {
+    return Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: Row(children: [
+        // Manual way to make circle image
+        // ClipRRect(
+        //   borderRadius: BorderRadius.circular(50),
+        //   child: SizedBox(
+        //     width: 50,
+        //     height: 50,
+        //     child: Image.asset("assets/images/user.png"),
+        //   ),
+        // ),
+        CircleAvatar(
+          radius: 25,
+          backgroundImage: Image.asset("assets/images/user.png").image,
+        ),
+        const SizedBox(width: 10),
+        const Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("fake-seller",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+            Text("Jeju-si"),
+          ],
+        ),
+        Expanded(child: ManorTemperature(manorTemp: 37.5)),
+      ]),
+    );
+  }
+
+  Widget _bodyWidget() {
+    return Column(
+      children: [
+        _makeSliderImage(),
+        _sellerSimpleInfo(),
+      ],
     );
   }
 
