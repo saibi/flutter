@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:carrot_market_sample/components/manor_temp_widget.dart';
+import 'package:carrot_market_sample/utils/data_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class DetailContentView extends StatefulWidget {
   final Map<String, String> data;
@@ -262,9 +264,66 @@ class _DetailContentViewState extends State<DetailContentView> {
 
   Widget _bottomBarWidget() {
     return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 15),
       height: 55,
       width: double.infinity,
-      color: Colors.red,
+      child: Row(
+        children: [
+          GestureDetector(
+            onTap: () {
+              print("관심상품");
+            },
+            child: SvgPicture.asset(
+              "assets/svg/heart_off.svg",
+              width: 20,
+              height: 20,
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.only(left: 15, right: 10),
+            width: 1,
+            height: 40,
+            color: Colors.grey.withOpacity(0.2),
+          ),
+          Column(
+            children: [
+              Text(
+                DataUtils.calcStringToWon(widget.data["price"]!),
+              ),
+              const Text(
+                "가격제안불가",
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey,
+                ),
+              ),
+            ],
+          ),
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: const Color(0xfff08f4f),
+                  ),
+                  child: const Text(
+                    "채팅으로 거래하기",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
