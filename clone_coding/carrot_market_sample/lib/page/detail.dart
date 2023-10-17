@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:carrot_market_sample/components/manor_temp_widget.dart';
+import 'package:carrot_market_sample/repository/contents_repository.dart';
 import 'package:carrot_market_sample/utils/data_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -23,6 +24,9 @@ class _DetailContentViewState extends State<DetailContentView>
 
   late AnimationController _animationController;
   late Animation _colorTween;
+  bool isMyFavoriteContent = false;
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+  ContentsRepository contentsRepository = ContentsRepository();
 
   @override
   void initState() {
@@ -97,7 +101,6 @@ class _DetailContentViewState extends State<DetailContentView>
                 initialPage: 0,
                 height: size.width,
                 onPageChanged: (index, reason) {
-                  print(index);
                   setState(() {
                     _current = index;
                   });
@@ -304,13 +307,31 @@ class _DetailContentViewState extends State<DetailContentView>
         children: [
           GestureDetector(
             onTap: () {
-              print("관심상품");
+              setState(() {
+                isMyFavoriteContent = !isMyFavoriteContent;
+              });
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  duration: const Duration(seconds: 1),
+                  content: Text(
+                    isMyFavoriteContent
+                        ? "Added to favorites"
+                        : "Removed from favorites",
+                  ),
+                ),
+              );
+              // scaffoldKey.currentState!.showSnackBar(const SnackBar(
+              //   duration: Duration(seconds: 1),
+              //   content: Text(),
+              // ));
             },
             child: SvgPicture.asset(
-              "assets/svg/heart_off.svg",
-              width: 20,
-              height: 20,
-            ),
+                isMyFavoriteContent
+                    ? "assets/svg/heart_on.svg"
+                    : "assets/svg/heart_off.svg",
+                width: 20,
+                height: 20,
+                color: const Color(0xfff08f4f)),
           ),
           Container(
             margin: const EdgeInsets.only(left: 15, right: 10),
@@ -363,6 +384,7 @@ class _DetailContentViewState extends State<DetailContentView>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       extendBodyBehindAppBar: true,
       appBar: _appBarWidget(),
       body: _bodyWidget(),
