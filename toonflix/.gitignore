@@ -46,3 +46,5 @@ app.*.map.json
 # generated files
 generated_plugin*
 GeneratedPluginRegistrant.swift
+
+*
